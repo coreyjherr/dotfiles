@@ -1,6 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 export TERM=xterm-256color
-export PATH="$PATH:~/.local/bin/"
+export PATH="$PATH:$HOME/.local/bin/"
 
 # If not running interactively, don't do anything
 case $- in
@@ -50,9 +50,11 @@ fi
 
 source ~/.fzf.bash
 
-export NVIMRC="/home/cherr/.config/nvim/init.lua"
-export PATH="$PATH:~/.local/nvim/bin"
+export NVIMRC="$HOME/.config/nvim/init.lua"
+export PATH="$PATH:$HOME/.local/nvim/bin"
 
 eval "$(zoxide init --cmd cd bash)"
 eval "$(starship init bash)"
+
+source $HOME/.atuin/bin/env
 eval "$(atuin init bash --disable-up-arrow)"
