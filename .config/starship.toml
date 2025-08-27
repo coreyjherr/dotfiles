@@ -1,0 +1,42 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$python\
+$conda\
+$cmd_duration\
+$line_break\
+$character
+"""
+
+# disable username display in ssh
+# [username]
+# disabled = true
+
+# disable hostname display in ssh
+# [hostname]
+# disabled = true
+
+[python]
+style = 'yellow'
+symbol = 'py '
+version_format = 'v${major}.${minor}'
+
+[directory]
+style = 'cyan'
+fish_style_pwd_dir_length = 1
+
+[git_commit]
+style = 'green'
+
+[git_branch]
+style = 'purple'
+
+[character]
+success_symbol = '[❯](bold purple)'
