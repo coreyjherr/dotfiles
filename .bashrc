@@ -1,6 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 export TERM=xterm-256color
 export PATH="$PATH:$HOME/.local/bin/"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # If not running interactively, don't do anything
 case $- in
@@ -37,8 +38,12 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-if [ -f ~/.bashrc_system_specific ]; then
-    . ~/.bashrc_system_specific
+if [ -d "$HOME/.bash_custom" ]; then
+    for file in "$HOME/.bash_custom"/*.sh; do
+        if [ -f "$file" ]; then
+            source "$file"
+        fi
+    done
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -57,8 +62,16 @@ source ~/.fzf.bash
 export NVIMRC="$HOME/.config/nvim/init.lua"
 export PATH="$PATH:$HOME/.local/nvim/bin"
 
-eval "$(zoxide init --cmd cd bash)"
 eval "$(starship init bash)"
+eval "$(zoxide init bash --cmd cd)"
 
-source $HOME/.atuin/bin/env
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source ~/.atuin/bin/env
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash --disable-up-arrow)"
+
+. "$HOME/.cargo/env"
+export PATH="$HOME/.cargo/bin:$PATH"

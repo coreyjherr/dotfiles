@@ -25,13 +25,12 @@ alias tls="tmux ls"
 
 alias pym="python -m"
 alias vsource="source .venv/bin/activate"
-alias fd="fdfind"
 alias mm="make"
 alias mr="make; make run"
 alias mlb="matlab -nodisplay -nosplash -nodesktop"
 
-alias cm="cmake -Bbuild ; cmake --build build -j 12"
-alias cmt="cmake -Bbuild ; cmake --build build -j 12"
+alias cm="cmake -Bbuild ; cmake --build build"
+alias cmb="cmake -Bbuild"
 
 # fix directory path
 # alias pre-commit="/home/cherr/miniconda3/bin/python /home/cherr/.local/bin/pre-commit-4.2.0.pyz"
