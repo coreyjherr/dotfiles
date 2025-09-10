@@ -10,8 +10,15 @@ vim.g.mapleader = "<Space>"
 
 require("config.lazy")
 
+-- fix the colorscheme in tmux
+if os.getenv("TMUX") then
+  vim.cmd([[let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"]])
+  vim.cmd([[let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"]])
+end
 vim.opt.termguicolors = true
 vim.cmd[[colorscheme dracula]]
+-- set background to dark
+vim.opt.background = "dark"
 
 vim.opt.hlsearch = false
 
@@ -125,4 +132,5 @@ end, { noremap = true, silent = true, desc = "Activate Cell Folding & Toggle Fol
 vim.keymap.set('n', '<leader>zo', function()
   activate_cell_folding_and_execute('zo')
 end, { noremap = true, silent = true, desc = "Activate Cell Folding & Open Fold" })
+
 
