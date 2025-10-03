@@ -7,7 +7,7 @@ return {
     },
     event = {"BufReadPre", "BufNewFile"},
     config = function()
-        local lspconfig = require("lspconfig")
+        local lspconfig = vim.lsp.config()
 
         -- set keybinds
         vim.keymap.set("n", "gR", require'telescope.builtin'.lsp_references)
