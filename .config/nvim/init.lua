@@ -134,3 +134,9 @@ vim.keymap.set('n', '<leader>zo', function()
 end, { noremap = true, silent = true, desc = "Activate Cell Folding & Open Fold" })
 
 
+-- enable language servers
+vim.lsp.enable{
+    "pyright",
+    "lua_ls",
+    "clangd"
+}

@@ -7,7 +7,6 @@ return {
     },
     event = {"BufReadPre", "BufNewFile"},
     config = function()
-        local lspconfig = vim.lsp.config()
 
         -- set keybinds
         vim.keymap.set("n", "gR", require'telescope.builtin'.lsp_references)
@@ -30,17 +29,19 @@ return {
 
         vim.keymap.set('v', '<Leader>1f', vim.lsp.buf.format, {buffer = true})
 
+        vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>")
+        --[[
         lspconfig.clangd.setup{
             clangd_config = {init_options = {compilationDatabasePath="build"}},
             filetype = {"c", "cpp", "cuh", "cu"},
             cmd = {"clangd", "--offset-encoding=utf-16"}
         }
-        vim.keymap.set("n", "gh", ":ClangdSwitchSourceHeader<CR>")
         lspconfig.pyright.setup{}
         lspconfig.lua_ls.setup{settings = {
             Lua = {
               -- make the language server recognize "vim" global
               diagnostics = {
                 globals = { "vim" },}}}}
+        --]]    
     end,
 }
