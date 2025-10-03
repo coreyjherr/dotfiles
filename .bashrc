@@ -75,3 +75,5 @@ eval "$(atuin init bash --disable-up-arrow)"
 
 . "$HOME/.cargo/env"
 export PATH="$HOME/.cargo/bin:$PATH"
+
+. "$HOME/.local/bin/env"
