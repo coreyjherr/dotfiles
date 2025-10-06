@@ -77,3 +77,6 @@ eval "$(atuin init bash --disable-up-arrow)"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 . "$HOME/.local/bin/env"
+
+PATH="/usr/local/cuda-13.0/bin:$PATH"
+LD_LIBRARY_PATH="/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH"

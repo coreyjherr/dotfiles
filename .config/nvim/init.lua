@@ -18,29 +18,11 @@ end
 vim.opt.termguicolors = true
 vim.cmd[[colorscheme dracula]]
 -- set background to dark
-vim.opt.background = "dark"
+-- vim.opt.background = "dark"
 
 vim.opt.hlsearch = false
 
-vim.keymap.set({'x', 'o'}, "il", ':<C-u>silent! normal!  $v^<cr>')
-vim.keymap.set({'x', 'o'}, "al", ':<c-u>silent! normal! $v0<cr>')
-
-vim.keymap.set({'n'}, '<Leader>]', '/#%%<cr><cmd>nohl<cr>zz')
-vim.keymap.set("i", "jk", "<Esc>")
-vim.keymap.set("n", "s", "<nop>")
-vim.keymap.set("n", "S", "<nop>")
-
--- set keymaps for saving and quitting
-vim.keymap.set("n", "<Leader>q", ":q<cr>")
-vim.keymap.set("n", "<Leader>Q", ":q!<cr>")
-vim.keymap.set("n", "<Leader>ww", ":w<cr>")
-vim.keymap.set("n", "<Leader>wq", ":wq<cr>")
-
--- set keymaps for navigating splits
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
+require"config.keymaps"
 
 -- set the tabstop in c++ and c and cuda files to 2
 vim.api.nvim_create_autocmd("FileType", {
@@ -133,10 +115,29 @@ vim.keymap.set('n', '<leader>zo', function()
   activate_cell_folding_and_execute('zo')
 end, { noremap = true, silent = true, desc = "Activate Cell Folding & Open Fold" })
 
+local lsp_configs = {}
 
--- enable language servers
-vim.lsp.enable{
-    "pyright",
-    "lua_ls",
-    "clangd"
-}
+for _, f in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
+  local server_name = vim.fn.fnamemodify(f, ':t:r')
+  table.insert(lsp_configs, server_name)
+end
+
+vim.lsp.enable(lsp_configs)
+
+local notify_original = vim.notify
+vim.notify = function(msg, ...)
+  if
+    msg
+    and (
+      msg:match 'position_encoding param is required'
+      or msg:match 'Defaulting to position encoding of the first client'
+      or msg:match 'multiple different client offset_encodings'
+      or msg:match 'vim.lsp.util.jump_to_location'
+    )
+  then
+    return
+  end
+  return notify_original(msg, ...)
+end
+
+

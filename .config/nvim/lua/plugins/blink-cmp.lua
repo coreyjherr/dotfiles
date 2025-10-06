@@ -25,7 +25,7 @@ return {
     -- C-k: Toggle signature help (if signature.enabled = true)
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
-    keymap = { preset = 'default' },
+    keymap = { preset = 'enter' },
 
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -33,14 +33,44 @@ return {
       nerd_font_variant = 'mono'
     },
 
+    signature = {
+        enabled = true,
+        window = {
+            border = 'rounded',
+        },
+    },
+
     -- (Default) Only show the documentation popup when manually triggered
-    completion = { documentation = { auto_show = false } },
+    completion = { documentation = {
+            -- max_height = 15,
+			draw = function(opts)
+				if opts.item and opts.item.documentation and opts.item.documentation.value then
+					local out = require("pretty_hover.parser").parse(opts.item.documentation.value)
+					opts.item.documentation.value = out:string()
+				end
+
+				opts.default_implementation(opts)
+			end,
+            auto_show = true,
+            auto_show_delay_ms = 500,
+            window = {
+                border = 'rounded',
+            },
+		}
+    },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer' },
+      default = { 'lsp', 'path',}, -- other commands 'snippets', 'buffer'},
+      providers = {
+          lsp = {
+              min_keyword_length = 1,
+              max_items = 5
+          },
+      }
     },
+
 
     -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
     -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
